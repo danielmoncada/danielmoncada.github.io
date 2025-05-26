@@ -78,7 +78,7 @@
 
         .container {
             text-align: center;
-            max-width: 500px;
+            max-width: 600px;
             padding: 2rem;
             position: relative;
             z-index: 1;
@@ -121,20 +121,45 @@
         .subtitle {
             font-size: 1.2rem;
             font-weight: 300;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             opacity: 0;
             animation: fadeIn 1s ease 1.8s forwards;
         }
 
-        .links {
+        .section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .section.links {
+            animation-delay: 2.2s;
+        }
+
+        .section.blogs {
+            animation-delay: 2.6s;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: rgba(229, 229, 229, 0.9);
+            letter-spacing: 0.5px;
+        }
+
+        body.light .section-title {
+            color: rgba(30, 41, 59, 0.9);
+        }
+
+        .links, .blog-links {
             display: flex;
             gap: 1rem;
             justify-content: center;
-            opacity: 0;
-            animation: fadeIn 1s ease 2.2s forwards;
+            flex-wrap: wrap;
         }
 
-        .link {
+        .link, .blog-link {
             position: relative;
             display: inline-flex;
             align-items: center;
@@ -152,7 +177,13 @@
             overflow: hidden;
         }
 
-        .link::before {
+        .blog-link {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        .link::before, .blog-link::before {
             content: '';
             position: absolute;
             top: 0;
@@ -164,19 +195,38 @@
             transition: opacity 0.2s ease;
         }
 
-        .link:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
+        .blog-link::before {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .link:hover, .blog-link:hover {
             transform: translateY(-1px);
         }
 
-        .link:hover::before {
+        .link:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .blog-link:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .link:hover::before, .blog-link:hover::before {
             opacity: 1;
         }
 
-        .link:active {
+        .link:active, .blog-link:active {
             transform: translateY(0);
+        }
+
+        .link:active {
             background: rgba(255, 255, 255, 0.06);
+        }
+
+        .blog-link:active {
+            background: rgba(59, 130, 246, 0.08);
         }
 
         body.light .link {
@@ -192,6 +242,21 @@
 
         body.light .link:active {
             background: rgba(30, 41, 59, 0.06);
+        }
+
+        body.light .blog-link {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: rgba(37, 99, 235, 0.2);
+            color: #2563eb;
+        }
+
+        body.light .blog-link:hover {
+            background: rgba(37, 99, 235, 0.15);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        body.light .blog-link:active {
+            background: rgba(37, 99, 235, 0.08);
         }
 
         .icon {
@@ -218,20 +283,21 @@
                 font-size: 2.5rem;
             }
             
-            .links {
+            .links, .blog-links {
                 flex-direction: column;
                 gap: 0.75rem;
                 max-width: 280px;
                 margin: 0 auto;
             }
 
-            .link {
+            .link, .blog-link {
                 padding: 1rem 2rem;
                 justify-content: center;
             }
             
             .container {
                 padding: 1rem;
+                max-width: 100%;
             }
 
             .theme-toggle {
@@ -252,27 +318,76 @@
         
         <p class="subtitle">Experienced Full Stack Software Engineer</p>
         
-        <div class="links">
-            <a href="https://github.com/danielmoncada" class="link" target="_blank">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                GitHub
-            </a>
-            
-            <a href="https://linkedin.com/in/danielmoncada" class="link" target="_blank">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                LinkedIn
-            </a>
-            
-            <a href="https://stackoverflow.com/users/701560/d-moncada" class="link" target="_blank">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277L15.725 0zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644-8.225-6.85zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94-9.701-4.517zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092-10.473-2.203zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396H1.89zm4.265 2.133v2.13h10.66v-2.13H6.154Z"/>
-                </svg>
-                Stack Overflow
-            </a>
+        <div class="section links">
+            <div class="links">
+                <a href="https://github.com/danielmoncada" class="link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                
+                <a href="https://linkedin.com/in/danielmoncada" class="link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    LinkedIn
+                </a>
+                
+                <a href="https://stackoverflow.com/users/701560/d-moncada" class="link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277L15.725 0zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644-8.225-6.85zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94-9.701-4.517zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092-10.473-2.203zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396H1.89zm4.265 2.133v2.13h10.66v-2.13H6.154Z"/>
+                    </svg>
+                    Stack Overflow
+                </a>
+            </div>
+        </div>
+
+        <div class="section blogs">
+            <h2 class="section-title">Recommended Tech Blogs</h2>
+            <div class="blog-links">
+                <a href="https://joel.is" class="blog-link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Joel on Software
+                </a>
+                
+                <a href="https://reddit.com/r/ExperiencedDevs" class="blog-link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+                    </svg>
+                    r/ExperiencedDevs
+                </a>
+                
+                <a href="https://news.ycombinator.com" class="blog-link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/>
+                    </svg>
+                    Hacker News
+                </a>
+                
+                <a href="https://www.hanselman.com" class="blog-link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Scott Hanselman
+                </a>
+                
+                <a href="https://hackernoon.com" class="blog-link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                    </svg>
+                    HackerNoon
+                </a>
+                
+                <a href="https://www.troyhunt.com" class="blog-link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                    </svg>
+                    Troy Hunt
+                </a>
+            </div>
         </div>
     </div>
 
