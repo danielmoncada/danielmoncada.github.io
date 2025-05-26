@@ -175,6 +175,7 @@
             letter-spacing: 0.01em;
             transition: all 0.2s ease;
             overflow: hidden;
+            will-change: transform;
         }
 
         .blog-link {
@@ -401,12 +402,17 @@
                 window.pJSDom = [];
             }
 
+            // reduce particles on mobile for better performance
+            //
+            const isMobile = window.innerWidth <= 768;
+            const particleCount = isMobile ? 40 : 80;
+
             // reinitialize with new colors
             //
             particlesJS('particles-js', {
                 particles: {
                     number: {
-                        value: 80,
+                        value: particleCount,
                         density: {
                             enable: true,
                             value_area: 800
@@ -502,6 +508,22 @@
             });
         }
 
+        // debounced resize handler for better performance
+        //
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const isMobile = window.innerWidth <= 768;
+                const particleCount = isMobile ? 40 : 80;
+                
+                if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
+                    window.pJSDom[0].pJS.particles.number.value = particleCount;
+                    window.pJSDom[0].pJS.fn.particlesRefresh();
+                }
+            }, 250);
+        });
+
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('light');
             
@@ -539,27 +561,31 @@
         //
         initParticles('#ffffff', '#ffffff', 0.15);
 
-        // add some interactive hover effects to the name
+        // optimized name hover effect with passive event listeners
         //
         const nameElement = document.getElementById('animatedName');
         const spans = nameElement.querySelectorAll('span');
 
+        let hoverTimeout;
+        
         nameElement.addEventListener('mouseenter', () => {
+            clearTimeout(hoverTimeout);
             spans.forEach((span, index) => {
                 setTimeout(() => {
                     span.style.transform = 'scale(1.1) translateY(-5px)';
                     span.style.transition = 'transform 0.3s ease';
                 }, index * 50);
             });
-        });
+        }, { passive: true });
 
         nameElement.addEventListener('mouseleave', () => {
+            clearTimeout(hoverTimeout);
             spans.forEach((span, index) => {
                 setTimeout(() => {
                     span.style.transform = 'scale(1) translateY(0)';
                 }, index * 30);
             });
-        });
+        }, { passive: true });
     </script>
 </body>
 </html>
