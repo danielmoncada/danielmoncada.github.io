@@ -1,1 +1,0 @@
-# danielmoncada.github.io
