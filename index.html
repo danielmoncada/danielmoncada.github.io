@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daniel</title>
+    <!-- theme colors for mobile browsers -->
+    <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+    <meta name="msapplication-navbutton-color" content="#0c0c0c">
+    
+    <!-- iOS Safari specific -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Daniel">
+    
+    <!-- prevent iOS zoom on input focus -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- iOS touch icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiBmaWxsPSIjMGMwYzBjIi8+Cjx0ZXh0IHg9IjkwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSI3MiIgZm9udC13ZWlnaHQ9IjMwMCIgZmlsbD0iI2U1ZTVlNSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RDwvdGV4dD4KPC9zdmc+">
+    <link rel="mask-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+Cjx0ZXh0IHg9IjkwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSI3MiIgZm9udC13ZWlnaHQ9IjMwMCIgZmlsbD0iYmxhY2siIHRleHQtYW5jaG9yPSJtaWRkbGUiPkQ8L3RleHQ+Cjwvc3ZnPg==" color="#0c0c0c">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <style>
@@ -22,7 +38,7 @@
             justify-content: center;
             color: #e5e5e5;
             position: relative;
-            overflow: hidden;
+            /* remove overflow: hidden to allow scrolling */
             transition: all 0.3s ease;
         }
 
@@ -68,7 +84,7 @@
         }
 
         #particles-js {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
@@ -82,6 +98,8 @@
             padding: 2rem;
             position: relative;
             z-index: 1;
+            /* ensure container can scroll */
+            width: 100%;
         }
 
         .greeting {
@@ -280,6 +298,13 @@
         }
 
         @media (max-width: 600px) {
+            body {
+                /* ensure proper mobile layout */
+                min-height: 100vh;
+                align-items: flex-start;
+                padding-top: 2rem;
+            }
+
             .name {
                 font-size: 2.5rem;
             }
@@ -299,11 +324,75 @@
             .container {
                 padding: 1rem;
                 max-width: 100%;
+                /* add bottom padding for better mobile experience */
+                padding-bottom: 3rem;
             }
 
             .theme-toggle {
                 top: 1rem;
                 right: 1rem;
+            }
+
+            .greeting {
+                font-size: 1.25rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* ensure proper mobile viewport handling */
+        @media screen and (max-height: 600px) {
+            body {
+                align-items: flex-start;
+                padding-top: 1rem;
+            }
+            
+            .container {
+                padding-top: 1rem;
+            }
+        }
+
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                /* fix for iOS Safari viewport units */
+                min-height: -webkit-fill-available;
+            }
+            
+            /* prevent iOS bounce scrolling */
+            .container {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* prevent text selection on interactive elements for better mobile UX */
+        .theme-toggle, .name {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* improve touch targets for mobile */
+        .link, .blog-link {
+            /* ensure minimum 44px touch target as per iOS guidelines */
+            min-height: 44px;
+            /* prevent text selection on links */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        @media (max-width: 600px) {
+            .link, .blog-link {
+                /* larger touch targets on mobile */
+                min-height: 48px;
+                padding: 1.25rem 2rem;
             }
         }
     </style>
@@ -312,7 +401,7 @@
     <div class="theme-toggle" id="themeToggle"></div>
     <div id="particles-js"></div>
     <div class="container">
-        <p class="greeting">Hello, I'm</p>
+        <p class="greeting">👋 Hey there, I'm</p>
         <h1 class="name" id="animatedName">
             <span>D</span><span>a</span><span>n</span><span>i</span><span>e</span><span>l</span>
         </h1>
@@ -347,39 +436,40 @@
         <div class="section blogs">
             <h2 class="section-title">Recommended Tech Blogs</h2>
             <div class="blog-links">
-                <a href="https://joel.is" class="blog-link" target="_blank">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    Joel on Software
-                </a>
-                
-                <a href="https://reddit.com/r/ExperiencedDevs" class="blog-link" target="_blank">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
-                    </svg>
-                    r/ExperiencedDevs
-                </a>
-                
+
                 <a href="https://news.ycombinator.com" class="blog-link" target="_blank">
                     <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/>
                     </svg>
                     Hacker News
                 </a>
-                
-                <a href="https://www.hanselman.com" class="blog-link" target="_blank">
+
+                <a href="https://reddit.com/r/ExperiencedDevs" class="blog-link" target="_blank">
                     <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
                     </svg>
-                    Scott Hanselman
+                    r/ExperiencedDevs
                 </a>
-                
+
                 <a href="https://hackernoon.com" class="blog-link" target="_blank">
                     <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
                     </svg>
                     HackerNoon
+                </a>
+
+                <a href="https://blog.codinghorror.com/" class="blog-link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Coding Horror
+                </a>
+
+                <a href="https://www.hanselman.com" class="blog-link" target="_blank">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Scott Hanselman
                 </a>
                 
                 <a href="https://www.troyhunt.com" class="blog-link" target="_blank">
@@ -395,6 +485,31 @@
     <script>
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
+
+        function updateThemeColor(darkColor, lightColor) {
+            // update meta theme-color for Android navigation
+            //
+            const themeColorMetaDark = document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]');
+            const themeColorMetaLight = document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: light)"]');
+            const msNavButtonMeta = document.querySelector('meta[name="msapplication-navbutton-color"]');
+            
+            // update the appropriate meta tag based on current theme
+            //
+            const currentColor = body.classList.contains('light') ? lightColor : darkColor;
+            
+            if (themeColorMetaDark) themeColorMetaDark.setAttribute('content', darkColor);
+            if (themeColorMetaLight) themeColorMetaLight.setAttribute('content', lightColor);
+            if (msNavButtonMeta) msNavButtonMeta.setAttribute('content', currentColor);
+            
+            // for iOS Safari status bar - update dynamically
+            //
+            let statusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+            if (statusBarMeta) {
+                // use 'default' for light theme, 'black-translucent' for dark theme
+                //
+                statusBarMeta.setAttribute('content', body.classList.contains('light') ? 'default' : 'black-translucent');
+            }
+        }
 
         function initParticles(particleColor, lineColor, lineOpacity) {
             if (window.pJSDom && window.pJSDom[0]) {
@@ -528,11 +643,13 @@
             body.classList.toggle('light');
             
             // reinitialize particles with correct colors for each theme
-            //
+            // and update theme color for mobile navigation
             if (body.classList.contains('light')) {
                 initParticles('#1e293b', '#1e293b', 0.4);
+                updateThemeColor('#0c0c0c', '#f8fafc');
             } else {
                 initParticles('#ffffff', '#ffffff', 0.15);
+                updateThemeColor('#0c0c0c', '#f8fafc');
             }
         });
 
