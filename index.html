@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daniel</title>
-    <!-- theme colors for mobile browsers -->
-    <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+    
+    <meta name="theme-color" content="#0c0c0c">
     <meta name="msapplication-navbutton-color" content="#0c0c0c">
     
     <!-- iOS Safari specific -->
@@ -23,6 +22,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <style>
+        :root {
+            color-scheme: dark;
+        }
+        
+        :root.light {
+            color-scheme: light;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -485,30 +492,30 @@
     <script>
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
+        const root = document.documentElement;
 
-        function updateThemeColor(darkColor, lightColor) {
-            // update meta theme-color for Android navigation
-            //
-            const themeColorMetaDark = document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]');
-            const themeColorMetaLight = document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: light)"]');
+        function updateThemeColor() {
+            const themeColorMeta = document.querySelector('meta[name="theme-color"]');
             const msNavButtonMeta = document.querySelector('meta[name="msapplication-navbutton-color"]');
+            const statusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
             
-            // update the appropriate meta tag based on current theme
-            //
-            const currentColor = body.classList.contains('light') ? lightColor : darkColor;
-            
-            if (themeColorMetaDark) themeColorMetaDark.setAttribute('content', darkColor);
-            if (themeColorMetaLight) themeColorMetaLight.setAttribute('content', lightColor);
-            if (msNavButtonMeta) msNavButtonMeta.setAttribute('content', currentColor);
-            
-            // for iOS Safari status bar - update dynamically
-            //
-            let statusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
-            if (statusBarMeta) {
-                // use 'default' for light theme, 'black-translucent' for dark theme
+            if (body.classList.contains('light')) {
+                // light theme
                 //
-                statusBarMeta.setAttribute('content', body.classList.contains('light') ? 'default' : 'black-translucent');
-            }
+                root.className = 'light';
+                if (themeColorMeta) themeColorMeta.setAttribute('content', '#f8fafc');
+                if (msNavButtonMeta) msNavButtonMeta.setAttribute('content', '#f8fafc');
+                if (statusBarMeta) statusBarMeta.setAttribute('content', 'default');
+
+                return;
+            } 
+
+            // dark theme
+            //
+            root.className = '';
+            if (themeColorMeta) themeColorMeta.setAttribute('content', '#0c0c0c');
+            if (msNavButtonMeta) msNavButtonMeta.setAttribute('content', '#0c0c0c');
+            if (statusBarMeta) statusBarMeta.setAttribute('content', 'black-translucent');
         }
 
         function initParticles(particleColor, lineColor, lineOpacity) {
@@ -641,44 +648,24 @@
 
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('light');
+            updateThemeColor();
             
-            // reinitialize particles with correct colors for each theme
-            // and update theme color for mobile navigation
             if (body.classList.contains('light')) {
                 initParticles('#1e293b', '#1e293b', 0.4);
-                updateThemeColor('#0c0c0c', '#f8fafc');
             } else {
                 initParticles('#ffffff', '#ffffff', 0.15);
-                updateThemeColor('#0c0c0c', '#f8fafc');
             }
         });
 
-        function updateParticlesColor(color, lineOpacity) {
-            if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
-                const pJS = window.pJSDom[0].pJS;
-                pJS.particles.color.value = color;
-                pJS.particles.line_linked.color = color;
-                pJS.particles.line_linked.opacity = lineOpacity;
-                
-                // update existing particles
-                //
-                for (let i = 0; i < pJS.particles.array.length; i++) {
-                    pJS.particles.array[i].color.value = color;
-                }
-                
-                // force canvas redraw
-                //
-                pJS.fn.canvasClear();
-                pJS.fn.particlesCreate();
-                pJS.fn.particlesDraw();
-            }
-        }
-
-        // initialize particles.js with dark theme colors
+        // initialize particles with dark theme colors
         //
         initParticles('#ffffff', '#ffffff', 0.15);
 
-        // optimized name hover effect with passive event listeners
+        // initialize theme colors
+        //
+        updateThemeColor();
+
+        // name hover effect
         //
         const nameElement = document.getElementById('animatedName');
         const spans = nameElement.querySelectorAll('span');
